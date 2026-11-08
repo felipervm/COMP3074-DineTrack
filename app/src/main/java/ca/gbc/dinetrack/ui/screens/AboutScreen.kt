@@ -27,10 +27,10 @@ fun AboutScreen(onBack: () -> Unit) {
                     Text("Team P 41")
                     Text("Felipe da Rocha Vieira Mattos")
                     Text("Student ID: 101581203")
-                    Text("Solo project · Prototype 1 (UI)", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("Solo project · Functional prototype", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
-            Text("This prototype uses sample restaurants and in-memory changes. Entries reset when the app process restarts.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("Restaurants are stored locally on this device. Saved changes remain available after the app restarts.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

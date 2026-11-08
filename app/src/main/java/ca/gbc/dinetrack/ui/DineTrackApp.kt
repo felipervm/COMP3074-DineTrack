@@ -13,6 +13,19 @@ fun DineTrackApp(viewModel: RestaurantViewModel) {
     var selectedId by rememberSaveable { mutableLongStateOf(0L) }
     var editing by rememberSaveable { mutableStateOf(false) }
     var detailsOrigin by rememberSaveable { mutableStateOf(AppScreen.List) }
+    viewModel.error?.let { message ->
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { viewModel.clearError() },
+            title = { androidx.compose.material3.Text("Storage error") },
+            text = { androidx.compose.material3.Text(message) },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = { viewModel.clearError() }) {
+                    androidx.compose.material3.Text("OK")
+                }
+            }
+        )
+    }
+    if (!viewModel.loaded && screen != AppScreen.Splash) return
     val selected = viewModel.find(selectedId)
     fun back() {
         screen = when (screen) {
@@ -32,11 +45,11 @@ fun DineTrackApp(viewModel: RestaurantViewModel) {
         AppScreen.Search -> SearchScreen(viewModel.restaurants,
             onOpen = { selectedId = it.id; detailsOrigin = AppScreen.Search; screen = AppScreen.Details }, onBack = { back() })
         AppScreen.AddEdit -> AddEditRestaurantScreen(if (editing) selected else null,
-            onSave = { selectedId = viewModel.save(it); screen = if (editing) AppScreen.Details else AppScreen.List }, onCancel = { back() })
+            onSave = { viewModel.save(it) { id -> selectedId = id; screen = if (editing) AppScreen.Details else AppScreen.List } }, onCancel = { back() })
         AppScreen.Details -> if (selected != null) RestaurantDetailsScreen(selected,
             onBack = { back() }, onMap = { screen = AppScreen.Map },
             onEdit = { editing = true; screen = AppScreen.AddEdit },
-            onDelete = { screen = AppScreen.List; viewModel.delete(selectedId) }) else LaunchedEffect(Unit) { screen = AppScreen.List }
+            onDelete = { viewModel.delete(selectedId) { screen = AppScreen.List } }) else LaunchedEffect(Unit) { screen = AppScreen.List }
         AppScreen.Map -> if (selected != null) MapScreen(selected) { back() } else LaunchedEffect(Unit) { screen = AppScreen.List }
         AppScreen.About -> AboutScreen { back() }
     }
