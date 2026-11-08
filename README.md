@@ -2,50 +2,70 @@
 
 DineTrack is a **Personal Restaurant Guide** developed for **COMP3074 – Mobile Application Development I** at George Brown College.
 
-The app is designed to help users save, organize, rate, search, and revisit restaurants they have visited or want to remember.
+The app helps users save, organize, rate, search, and revisit restaurants they have visited or want to remember.
 
 ## Project Information
 
 - **Course:** COMP3074 – Mobile Application Development I
-- **Project:** Prototype 1 – UI
+- **Project:** Functional Prototype
 - **Team:** P 41
 - **Developer:** Felipe da Rocha Vieira Mattos
 - **Student ID:** 101581203
 - **Platform:** Android
 - **Language:** Kotlin
 - **UI:** Jetpack Compose
+- **Local Storage:** Room / SQLite
 
-## Prototype Scope
+## Functional Prototype Scope
 
-This repository contains the first UI prototype of DineTrack.
+This repository contains the functional prototype of DineTrack.
 
-The prototype includes UI for all planned screens:
+The current version includes:
 
-- Splash
-- Restaurant List
+- Splash screen
+- Restaurant list
 - Add / Edit Restaurant
 - Restaurant Details
 - Search / Filter
-- Map & Directions
-- About
+- Map & Directions prototype
+- About screen
 
-It also includes working prototype logic for several interactions:
+The following functionality is implemented:
 
-- Automatic transition from Splash to Restaurant List
-- Search by restaurant name or tag
+- Add restaurants
+- Edit restaurants
+- Delete restaurants with confirmation
+- Persistent local storage with Room / SQLite
+- Restaurant details
+- Search by restaurant name
+- Search by tags
 - Tag filtering
-- Add restaurant with required-name validation
-- Edit restaurant
-- Delete restaurant with confirmation
-- Navigation between all screens
+- 1–5 star rating
+- Form validation
+- Navigation between screens
 - System back navigation
-- In-memory state managed through a ViewModel
+- Reactive UI updates using ViewModel, Flow, and Jetpack Compose
 
-The current prototype uses mock/in-memory data. Persistent Room storage, live Google Maps, GPS/location services, and production sharing/directions integrations are planned for later milestones.
+## Data Access Layer
+
+The application now includes a persistent data access layer using Android Room.
+
+The data layer includes:
+
+- `DineTrackDatabase`
+- `RestaurantDao`
+- `RestaurantRepository`
+- `TagConverters`
+- Room entity support in the Restaurant model
+- Kotlin Coroutines and Flow for asynchronous database operations
+
+Restaurant data remains available after the application is closed and reopened.
+
+The sample restaurants are inserted only when the local database is first created.
 
 ## App Purpose
 
-DineTrack gives users a simple personal place to keep track of restaurants instead of relying on scattered notes, browser bookmarks, or social media posts.
+DineTrack gives users a personal place to keep track of restaurants instead of relying on scattered notes, browser bookmarks, or social media posts.
 
 Each restaurant can include:
 
@@ -56,7 +76,7 @@ Each restaurant can include:
 - Tags
 - 1–5 star rating
 
-Users can browse their saved restaurants, search by name or tags, open restaurant details, add or edit entries, and access prototype map/directions and sharing actions.
+Users can browse their saved restaurants, search by name or tags, open restaurant details, add or edit entries, and manage their personal restaurant collection.
 
 ## UI Design
 
@@ -76,6 +96,11 @@ The interface follows a consistent Material 3 design with:
 app/src/main/java/ca/gbc/dinetrack/
 ├── MainActivity.kt
 ├── data/
+│   ├── DineTrackDatabase.kt
+│   ├── MockRestaurantData.kt
+│   ├── RestaurantDao.kt
+│   ├── RestaurantRepository.kt
+│   └── TagConverters.kt
 ├── model/
 ├── navigation/
 ├── viewmodel/
@@ -85,12 +110,38 @@ app/src/main/java/ca/gbc/dinetrack/
     └── theme/
 ```
 
+## Current Limitations
+
+The Functional Prototype implements the majority of the application logic and the complete local data access layer.
+
+The following integrations remain for the final milestone:
+
+- Live Google Maps integration
+- GPS/current-location directions
+- Production sharing functionality
+
+The Map & Directions and sharing areas are currently prototype implementations.
+
+## Technologies
+
+- Kotlin
+- Android Studio
+- Jetpack Compose
+- Material 3
+- Room
+- SQLite
+- ViewModel
+- Kotlin Coroutines
+- Flow
+- KSP
+
 ## Running the Project
 
-1. Open the repository in Android Studio.
-2. Allow Gradle sync to complete.
-3. Select an Android emulator or physical device.
-4. Run the `app` configuration.
+1. Clone or download the repository.
+2. Open the project in Android Studio.
+3. Allow Gradle sync to complete.
+4. Select an Android emulator or physical device.
+5. Run the `app` configuration.
 
 Minimum Android version: **API 24+**.
 
@@ -100,23 +151,22 @@ To build from the project terminal on Windows:
 .\gradlew.bat :app:assembleDebug
 ```
 
-## Prototype 1 Requirements Covered
+## Functional Test
 
-- UI implemented for all planned screens
-- Working logic implemented for more than two screens
-- Consistent styles/theme used across the app
-- Short demonstration video prepared for submission
-- Git repository used as project history and submission artifact
+A basic functional test can be completed by:
 
-## Current Limitations
+1. Add a new restaurant.
+2. Open its Details screen.
+3. Edit its information or rating.
+4. Search for it by name or tag.
+5. Close the application.
+6. Reopen the application.
+7. Confirm that the restaurant remains saved.
+8. Delete the restaurant and confirm the deletion.
 
-This is a UI prototype rather than the final implementation. The following are intentionally deferred to later milestones:
+## Repository
 
-- Room/SQLite persistence
-- Real Google Maps integration
-- GPS/current-location directions
-- Final Android sharing implementation
-- Full production validation and error handling
+https://github.com/felipervm/COMP3074-DineTrack
 
 ## Author
 
